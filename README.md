@@ -9,7 +9,7 @@ This procedure should be done on a fresh install of the eMMC using JetPack 4.3+.
 
 Next, copy the rootfs of the eMMC to the SD Card
 ```
-$ ./copy-rootfs-ssd.sh
+$ ./copy-rootfs-sd.sh
 ```
 
 Then, setup the service. This will copy the .service file to the correct location, and install a startup script to set the rootfs to the SSD.
@@ -26,3 +26,11 @@ These script changes the rootfs to the SD Card after the kernel image is loaded 
 Once this service is installed, the rootfs will be on the SD Card. If you upgrade to a newer version of L4T using OTA updates (using the NVIDIA .deb repository), you will need to also apply those changes to the SD Card that you are booting from.
 
 Typically this involves copying the /boot* directory and /lib/modules/\<kernel name\>/ from the SSD to the SD Card. If they are different, then modules load will be 'tainted', that is, the modules version will not match the kernel version.
+
+### 手順
+1. SDカードをext4でフォーマット
+2. `df -h` でSDカードのパスを確認（`/dev/mmcblk1p1`）
+3. `./copy-rootfs-ssd.sh` を実行
+4. `./setup-service.sh` を実行
+5. `sudo reboot`
+6. `df -h` でSDカードのパス（`/dev/mmcblk1p1`）がルートディレクトリになっているか確認
